@@ -9,6 +9,7 @@ const router = useRouter()
 const theme = computed(() => {
   return useOsTheme().value === 'dark' ? darkTheme : null
 })
+const breakpoints = { xxs: 0, xs: 420, s: 640, m: 1024, l: 1280, xl: 1536, xxl: 1920 }
 
 // @ts-ignore
 window.onSpotifyWebPlaybackSDKReady = () => {
@@ -21,7 +22,7 @@ document.getElementsByTagName('head')[0].appendChild(player)
 </script>
 
 <template>
-  <n-config-provider :theme="theme" :theme-overrides="store.themeOverrides"
+  <n-config-provider :theme="theme" :theme-overrides="store.themeOverrides" :breakpoints="breakpoints"
     :style="{ '--ss-base-color': store.baseColor, '--ss-base-color-half': store.baseColor + '80', '--ss-base-color-quarter': store.baseColor + '40' }">
       <n-notification-provider>
         <n-layout id="content">

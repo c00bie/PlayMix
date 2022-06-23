@@ -72,7 +72,7 @@ async function shuffle() {
     <n-text>Retrieving playlists...</n-text>
     <n-spin></n-spin>
   </n-space>
-  <n-grid cols="1 s:3 m:4 l:5 xl:6 xxl:7" responsive="screen" x-gap="25px" y-gap="25px">
+  <n-grid cols="1 xs:2 s:3 m:4 l:5 xl:6 xxl:7" responsive="screen" x-gap="25px" y-gap="25px">
     <n-gi v-for="play of playlists">
       <Playlist :playlist="play" :checked="store.selectedPlaylists.includes(play.id)" @checked="updateChecked(play.id, $event)"></Playlist>
     </n-gi>
