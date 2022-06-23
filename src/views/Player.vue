@@ -67,7 +67,7 @@ function seek(position: number) {
 
 <template>
 <n-space id="player" vertical align="center" justify="center">
-  <n-space align="center">
+  <n-space id="player-content" align="center">
       <img id="currentCover" :src="currentTrack?.album.images[0].url" :alt="currentTrack?.album.name">
       <div id="currentSong">
         <n-space id="title" align="start" justify="space-between" :wrap="false">
@@ -108,7 +108,9 @@ function seek(position: number) {
               </template>
             </n-button>
           </n-space>
-          <n-text depth="3" style="margin-top: 20px; font-size: 0.9em;">You can also control playback using Spotify Connect</n-text>
+          <p>
+            <n-text depth="3" style="margin-top: 20px; font-size: 0.9em; text-align: center;">You can also control playback using Spotify Connect</n-text>
+          </p>
         </div>
       </div>
   </n-space>
@@ -121,6 +123,15 @@ function seek(position: number) {
   transition: background-color 0.2s ease-in-out;
   min-height: 100vh;
 
+  #player-content {
+    > div {
+      flex-grow: 1;
+      &:first-child {
+        text-align: center;
+      }
+    }
+  }
+
   #currentCover {
     width: 250px;
     height: 250px;
@@ -128,9 +139,14 @@ function seek(position: number) {
   }
 
   #currentSong {
-    width: 90vw;
-    max-width: 500px;
+    width: calc(100vw - 50px);
     margin: 0 25px;
+    margin-top: 25px;
+
+    @media screen and (min-width: 850px) {
+      max-width: 500px;
+      margin-top: 0;
+    }
 
     #title {
       width: 100%;
@@ -138,7 +154,7 @@ function seek(position: number) {
 
       div:first-child {
         flex-grow: 0;
-        max-width: 75% !important;
+        max-width: calc(100% - 112px) !important;
       }
     }
 
