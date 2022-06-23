@@ -62,6 +62,7 @@ else {
       // @ts-ignore
       store.player?.activateElement()
     });
+    setTimeout(store.renewToken, store.refreshAfter * 900)
     store.player?.connect()
   }).catch(err => {
     console.log(err)

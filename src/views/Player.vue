@@ -19,10 +19,13 @@ const artists = computed(() => {
   return currentTrack.value?.artists.map(artist => artist.name).join(', ') ?? 'Unknown Artist'
 })
 const lists = computed(() => {
-  return store.playlistMap[currentTrack.value?.uri ?? ''].join(', ') ?? 'unknown'
+  if (currentTrack.value !== null && store.playlistMap[currentTrack.value.uri] !== undefined)
+    return store.playlistMap[currentTrack.value.uri].join(', ')
+  else return 'unknown'
 })
 
 watch(currentTrack, (track, oldTrack) => {
+  if (router.currentRoute.value.name !== 'player') return
   if (track !== null && track?.id != oldTrack?.id) {
     average(track.album.images[0].url).then(res => {
       store.baseColor = Color(res).hex()
@@ -34,6 +37,7 @@ watch(currentTrack, (track, oldTrack) => {
 })
 var lastStateUpdate = Date.now()
 watch(playerState, async (state) => {
+  if (router.currentRoute.value.name !== 'player') return
   if (lastStateUpdate + 500 > Date.now())
     return
   if (state?.repeat_mode === 0)
@@ -55,7 +59,7 @@ store.player?.getCurrentState().then(state => {
   position.value = state?.position ?? -1
   lastUpdate = Date.now()
 })
-setInterval(() => {
+var int = setInterval(() => {
   if (playing.value)
     position.value += (Date.now() - lastUpdate)
   lastUpdate = Date.now()
@@ -65,11 +69,18 @@ function seek(position: number) {
   if (playerState.value?.disallows.seeking !== true)
     store.player?.seek(position)
 }
+
+function reselect() {
+  clearInterval(int)
+  requestAnimationFrame(() => {
+    router.push('/select')
+  })
+}
 </script>
 
 <template>
 <div id="return">
-  <n-button @click="router.push('/select')">Return to selection</n-button>
+  <n-button type="primary" round size="large" @click="reselect">Return to selection</n-button>
 </div>
 <n-space id="player" vertical align="center" justify="center">
   <n-space id="player-content" align="center">
@@ -79,10 +90,10 @@ function seek(position: number) {
           <h2>{{ currentTrack?.name || 'Unknown track' }}</h2>
           <img id="spotifyLogo" src="../assets/Spotify_green.svg" alt="Spotify">
         </n-space>
-        <n-h3 style="margin: 0">
+        <n-h3 style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
           <n-text depth="3">{{ artists }}</n-text>
         </n-h3>
-        <n-text depth="3">From: {{ lists }}</n-text>
+        <n-p depth="3" style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">From: {{ lists }}</n-p>
         <div id="controls">
           <n-slider :show-tooltip="false" :format-tooltip="() => ''" :value="position" :max="duration" :on-update:value="seek"></n-slider>
           <n-space style="font-size: 0.9em" justify="space-between" :wrap="false">
@@ -183,5 +194,11 @@ function seek(position: number) {
 
 .n-slider-handle-indicator {
   display: none;
+}
+
+#return {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
 </style>

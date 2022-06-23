@@ -12,6 +12,7 @@ store.getPlaylists().then(res => {
   playlists.value = res
 })
 const message = ref('')
+const first = store.playlist.length === 0
 
 function updateChecked(id: string, state: boolean) {
   const i = store.selectedPlaylists.indexOf(id)
@@ -64,13 +65,14 @@ async function shuffle() {
 
 <template>
 <n-space id="playlistSelect" align="center" justify="center" vertical>
-  <p class="header">First things first...</p>
+  <p class="header" v-if="first">First things first...</p>
+  <p class="header" v-else>Changed your mind?</p>
   <p class="subheader">Select playlists you want to use</p>
   <n-space v-if="playlists.length === 0" vertical align="center" justify="center">
     <n-text>Retrieving playlists...</n-text>
     <n-spin></n-spin>
   </n-space>
-  <n-grid cols="2 s:3 m:4 l:5 xl:6 2xl:7" responsive="screen" x-gap="25px" y-gap="25px">
+  <n-grid cols="1 s:3 m:4 l:5 xl:6 xxl:7" responsive="screen" x-gap="25px" y-gap="25px">
     <n-gi v-for="play of playlists">
       <Playlist :playlist="play" :checked="store.selectedPlaylists.includes(play.id)" @checked="updateChecked(play.id, $event)"></Playlist>
     </n-gi>
@@ -87,7 +89,7 @@ async function shuffle() {
 <n-modal :show="message !== ''">
   <n-card size="huge" style="width: 90%; max-width: 600px;">
     <n-space vertical align="center" justify="center">
-      <n-h2>{{ message }}</n-h2>
+      <n-h2 style="text-align: center">{{ message }}</n-h2>
       <n-spin></n-spin>
     </n-space>
   </n-card>
@@ -99,6 +101,7 @@ async function shuffle() {
   min-height: 100vh;
   padding: 50px;
   margin-bottom: 50px;
+  text-align: center;
 
   .n-grid {
     margin-top: 50px;
