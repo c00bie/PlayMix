@@ -11,7 +11,7 @@ const code = urlParams.get('code');
 const error = urlParams.get('error');
 const store = useStore()
 const state = ref('Logging in with Spotify...')
-const redirect = 'http://localhost:3000/login'
+const redirect = location.origin + '/login'
 const router = useRouter()
 const scopes = [
   'playlist-read-collaborative',
