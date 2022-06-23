@@ -11,6 +11,7 @@ const code = urlParams.get('code');
 const error = urlParams.get('error');
 const store = useStore()
 const state = ref('Logging in with Spotify...')
+const isError = ref(false)
 const redirect = location.origin + '/login'
 const router = useRouter()
 const scopes = [
@@ -65,14 +66,19 @@ else {
   }).catch(err => {
     console.log(err)
     state.value = "Error: " + err.response.data.error
+    isError.value = true
   })
 }
 
+function retry() {
+  window.location.href = redirect
+}
 </script>
 
 <template>
 <n-space justify="center" align="center" style="height: 100vh" vertical>
   <h1>{{ state }}</h1>
-  <n-spin></n-spin>
+  <n-button round type="primary" v-if="isError" @click="retry">Try again</n-button>
+  <n-spin v-else></n-spin>
 </n-space>
 </template>
