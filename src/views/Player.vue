@@ -5,8 +5,10 @@ import { average } from 'color.js'
 import Color from 'color';
 import { format } from 'date-fns';
 import { Play, Pause, StepBackward, StepForward } from '@vicons/fa'
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
 const playerState = ref<Spotify.PlaybackState | null>(null)
 const position = ref(-1)
 const duration = computed(() => playerState.value?.duration ?? 0)
@@ -66,6 +68,9 @@ function seek(position: number) {
 </script>
 
 <template>
+<div id="return">
+  <n-button @click="router.push('/select')">Return to selection</n-button>
+</div>
 <n-space id="player" vertical align="center" justify="center">
   <n-space id="player-content" align="center">
       <img id="currentCover" :src="currentTrack?.album.images[0].url" :alt="currentTrack?.album.name">

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { GlobalThemeOverrides } from 'naive-ui';
 import Color from 'color';
 import SpotifyWebApi from 'spotify-web-api-js'
+import axios from 'axios'
 
 export interface State {
   baseColor: string,
@@ -88,6 +89,24 @@ const store = defineStore('main', {
         this.playlist.sort(() => Math.random() - 0.5)
         this.playlistIndex = 0
       }
+    },
+    renewToken() {
+      const params = new URLSearchParams()
+      params.append('grant_type', 'refresh_token')
+      params.append('refresh_token', this.refreshToken)
+      axios.post('https://accounts.spotify.com/api/token', params, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + import.meta.env.VITE_AUTH
+        }
+      }).then(res => {
+        this.authToken = res.data.access_token
+        this.refreshAfter = res.data.expires_in
+        this.api?.setAccessToken(this.authToken)
+        setTimeout(this.renewToken, this.refreshAfter * 900)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
 })
