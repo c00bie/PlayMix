@@ -8,8 +8,9 @@ const router = useRouter()
 <template>
 <div id="top">
   <p class="header">Play your library on shuffle</p>
-  <p class="subheader">SpotiShuffle mixes your Spotify library together</p>
+  <p class="subheader">SpotiShuffle lets you mix your playlists together - without making mess in your library</p>
   <n-button type="primary" round size="large" @click="router.push('/login')">Let's rock!</n-button>
+  <n-p depth="3" style="margin-top: -5px; font-style: italic">Spotify Premium required</n-p>
 </div>
 </template>
 
