@@ -83,7 +83,11 @@ function reselect() {
   <n-button type="primary" round size="large" @click="reselect">Return to selection</n-button>
 </div>
 <n-space id="player" vertical align="center" justify="center">
-  <n-space id="player-content" align="center">
+  <div v-if="currentTrack === null" style="text-align: center">
+    <n-h2>Player is inactive</n-h2>
+    <n-p>Playback was probably transferred to another device</n-p>
+  </div>
+  <n-space v-else id="player-content" align="center">
       <img id="currentCover" :src="currentTrack?.album.images[0].url" :alt="currentTrack?.album.name">
       <div id="currentSong">
         <n-space id="title" align="start" justify="space-between" :wrap="false">
