@@ -24,7 +24,7 @@ document.getElementsByTagName('head')[0].appendChild(player)
 <template>
   <n-config-provider :theme="theme" :theme-overrides="store.themeOverrides" :breakpoints="breakpoints"
     :style="{ '--ss-base-color': store.baseColor, '--ss-base-color-half': store.baseColor + '80', '--ss-base-color-quarter': store.baseColor + '40' }">
-      <n-notification-provider>
+      <n-notification-provider :container-style="{ '--ss-base-color': store.baseColor, '--ss-text-color': store.darkColor }">
         <n-layout id="content">
           <router-view></router-view>
         </n-layout>
@@ -49,5 +49,13 @@ document.getElementsByTagName('head')[0].appendChild(player)
   text-align: center;
   margin: 0;
   margin-bottom: 10px;
+}
+
+.n-notification-container .n-notification {
+  background-color: var(--ss-base-color);
+
+  .n-notification-main * {
+    color: var(--ss-text-color) !important;
+  }
 }
 </style>
