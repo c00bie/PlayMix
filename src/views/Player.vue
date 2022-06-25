@@ -28,9 +28,9 @@ const lists = computed(() => {
   else return 'unknown'
 })
 
-const devices = ref<SpotifyApi.UserDevice[]>([])
+const devices = ref<SpotifyApi.UserDevice[] | null>(null)
 const devOptions = computed<DropdownMixedOption[]>(() => {
-  if (devices.value.length == 0)
+  if (devices.value === null)
     return [
       {
         type: 'render',
@@ -50,19 +50,15 @@ const devOptions = computed<DropdownMixedOption[]>(() => {
     }))
 })
 function updateDevices() {
+  devices.value = null
   store.api?.getMyDevices().then(dev => {
-    devices.value = dev.devices.sort((a, b) => a.is_active ? -1 : 1)
-    console.log(devices.value)
-  })
+    devices.value = dev.devices.sort((a) => a.is_active ? -1 : 1)
+  }).catch(() => error('Failed to get devices'))
 }
 function changeDevice(id: string) {
-  store.api?.transferMyPlayback([id]).then(() => {
-    notif.success({
-      title: 'Playback transferred!',
-      duration: 500000,
-      closable: true
-    })
-  })
+  if (id !== store.deviceId)
+    store.api?.transferMyPlayback([id]).then(() => success('Playback transferred!'))
+      .catch(() =>error('Failed to transfer playback'))
 }
 
 watch(currentTrack, (track, oldTrack) => {
@@ -125,13 +121,31 @@ function saveToPlaylist() {
       name: 'My SpotiShuffle mix',
       description: 'Playlist created by SpotiShuffle, consisting of: "' + playlists.join('", "') + '"'
     }).then(async (playlist) => {
+      try {
       for (var i = 0; i < store.playlist.length; i += 100)
         await store.api?.addTracksToPlaylist(playlist.id, store.playlist.slice(i, i + 100))
-      notif.success({
-        title: 'Playlist created!',
-        duration: 5000
-      })
-    })
+      success('Playlist created!')
+      }
+      catch (e) {
+        error('Failed to add tracks to playlist')
+      }
+    }).catch(() => error('Failed to create playlist'))
+  }).catch(() => error('Failed to get user info'))
+}
+
+function success(title: string) {
+  return notif.success({
+    title,
+    duration: 5000,
+    closable: true
+  })
+}
+
+function error(title: string) {
+  return notif.error({
+    title,
+    duration: 5000,
+    closable: true
   })
 }
 </script>
