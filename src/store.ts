@@ -39,10 +39,10 @@ const store = defineStore('main', {
     }
   },
   getters: {
-    darkColor: (state: State): string => Color(state.baseColor).isDark() ? '#fff' : '#000',
+    darkColor: (state: State): string => pickTextColor(state.baseColor, '#FFFFFF', '#000000'),
     themeOverrides: (state): GlobalThemeOverrides => {
       const baseColor = Color(state.baseColor);
-      const text = baseColor.isDark() ? '#fff' : '#000'
+      const text = pickTextColor(state.baseColor, '#FFFFFF', '#000000')
       return {
         common: {
           fontSize: '16px',
@@ -112,3 +112,11 @@ const store = defineStore('main', {
 })
 
 export default store
+
+function pickTextColor(bg: string, light: string, dark: string) {
+  var color = Color(bg);
+  var c = [color.red() / 255, color.green() / 255, color.blue() / 255]
+    .map(col => col <= 0.04045 ? col / 12.92 : Math.pow((col + 0.055) / 1.055, 2.4));
+  var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+  return (L > 0.179) ? dark : light;
+}
