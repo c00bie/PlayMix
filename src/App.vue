@@ -22,7 +22,7 @@ document.getElementsByTagName('head')[0].appendChild(player)
 </script>
 
 <template>
-  <n-config-provider :theme="theme" :theme-overrides="store.themeOverrides" :breakpoints="breakpoints"
+  <n-config-provider :theme="darkTheme" :theme-overrides="store.themeOverrides" :breakpoints="breakpoints"
     :style="{ '--ss-base-color': store.baseColor, '--ss-base-color-half': store.baseColor + '80', '--ss-base-color-quarter': store.baseColor + '40' }">
       <n-notification-provider :container-style="{ '--ss-base-color': store.baseColor, '--ss-text-color': store.darkColor }">
         <n-layout id="content">
