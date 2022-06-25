@@ -116,7 +116,7 @@ export default store
 function pickTextColor(bg: string, light: string, dark: string) {
   var color = Color(bg);
   var c = [color.red() / 255, color.green() / 255, color.blue() / 255]
-    .map(col => col <= 0.04045 ? col / 12.92 : Math.pow((col + 0.055) / 1.055, 2.4));
+    .map(col => col <= 0.03928 ? col / 12.92 : Math.pow((col + 0.055) / 1.055, 2.4));
   var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
   return (L > 0.179) ? dark : light;
 }
