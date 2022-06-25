@@ -8,7 +8,7 @@ declare module '@vue/runtime-core' {
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
-    NDataTable: typeof import('naive-ui')['NDataTable']
+    NDropdown: typeof import('naive-ui')['NDropdown']
     NGi: typeof import('naive-ui')['NGi']
     NGlobalStyle: typeof import('naive-ui')['NGlobalStyle']
     NGrid: typeof import('naive-ui')['NGrid']
@@ -19,17 +19,13 @@ declare module '@vue/runtime-core' {
     NModal: typeof import('naive-ui')['NModal']
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
     NP: typeof import('naive-ui')['NP']
-    NProgress: typeof import('naive-ui')['NProgress']
     NSlider: typeof import('naive-ui')['NSlider']
     NSpace: typeof import('naive-ui')['NSpace']
     NSpin: typeof import('naive-ui')['NSpin']
     NText: typeof import('naive-ui')['NText']
-    NThemeEditor: typeof import('naive-ui')['NThemeEditor']
     Playlist: typeof import('./src/components/Playlist.vue')['default']
-    Playlists: typeof import('./src/components/Playlists.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectPlaylists: typeof import('./src/components/SelectPlaylists.vue')['default']
   }
 }
 

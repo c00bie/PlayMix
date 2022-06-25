@@ -17,6 +17,8 @@ const router = useRouter()
 const scopes = [
   'playlist-read-collaborative',
   'playlist-read-private',
+  'playlist-modify-public',
+  'playlist-modify-private',
   'user-library-read',
   'streaming',
   'user-modify-playback-state',
