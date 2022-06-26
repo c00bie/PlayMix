@@ -45,6 +45,10 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import('./views/Terms.vue')
   },
+  {
+    path: "/:catchAll(.*)",
+    redirect: '/'
+  }
 ]
 
 const router = createRouter({
