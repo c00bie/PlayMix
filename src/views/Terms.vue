@@ -16,14 +16,14 @@ const router = useRouter()
         <li>Spotify Premium subscription is required.</li>
       </ul>
       <hr />
-      <p>SpotiShuffle (referred to as “SpotiShuffle”, “App”, “Service”) is a web app that allows users to mix their Spotify playlists, developed by coobie.dev Jakub Kańduła (referred to as “coobie.dev”, “We”, “Us”, “Our”) and available at https://spotishuffle.coobie.dev. By using the app, you agree to the following terms of service:</p>
+      <p>SpotiShuffle (referred to as “SpotiShuffle”, “App”, “Service”) is a web app that allows users to mix their Spotify playlists, developed by Jakub Kańduła (referred to as "Creator", "We", "Us", "Our") and available at https://spotishuffle.coobie.dev. By using the app, you agree to the following terms of service:</p>
       <ol>
         <li>You must be at least 13 years old to use the App, or as stated by your local law.</li>
         <li>You are responsible for any and all activity that occurs under your Spotify account. This includes, but is not limited to, playlist creation, playlist selection, mixing and playback.</li>
         <li>You will not use the App for any illegal or unauthorized purpose. This includes, but is not limited to, copyrighted material, trademark infringement, or hacking into other people's Spotify accounts.</li>
         <li>We reserve the right to restrict your access to the Service at any time for any reason.</li>
         <li>To use the Service, paid subscription to Spotify Service (“Spotify Premium”) is required. While using SpotiShuffle, you must also comply with the Spotify Terms of Use.</li>
-        <li>SpotiShuffle or coobie.dev is not affiliated with Spotify in any way.</li>
+        <li>SpotiShuffle or Creator is not affiliated with Spotify in any way.</li>
         <li>SpotiShuffle is a Single Page Application that runs entirely in your browser. This means that We do not collect any of your personal information, and any data you provide (including, but not limited to: Spotify access token, selected playlists, generated playback queue) is not stored and immediately removed after closing or refreshing the App. The only exception is when you decide to save current playback queue, which creates and saves playlist in your Spotify account.</li>
         <li>Although we do not collect any of your personal information, Spotify may collect some data, as stated in Spotify Privacy Policy.</li>
         <li>These terms of service may be updated from time to time without notice. It is your responsibility to check these terms of service periodically for changes. By using SpotiShuffle after any such changes have been made, you agree to be bound by the revised terms of service.</li>
