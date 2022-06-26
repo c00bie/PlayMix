@@ -7,6 +7,7 @@ const router = useRouter()
 
 <template>
 <div id="top">
+  <img id="logo" src="../assets/SpotiShuffle-text-w.svg" alt="SpotiShuffle">
   <p class="header">Play your library on shuffle</p>
   <p class="subheader">SpotiShuffle lets you mix your playlists together - without making mess in your library</p>
   <n-button type="primary" round size="large" @click="router.push('/login')">Let's rock!</n-button>
@@ -44,6 +45,13 @@ const router = useRouter()
     img {
       width: 100px;
     }
+  }
+
+  #logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    height: 50px;
   }
 }
 </style>
