@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Warstwa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350">
+  <defs>
+    <style>
+      .cls-1{fill:#fff;}.cls-2{stroke:#fff;stroke-width:20px;}.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-3{stroke:#999;stroke-width:15px;}.cls-4{fill:#999;}
+      @media ( prefers-color-scheme: light ) {
+        .cls-1{fill:#000;}.cls-2{stroke:#000;stroke-width:20px;}.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-3{stroke:#666;stroke-width:15px;}.cls-4{fill:#666;}
+      }
+    </style>
+  </defs>
+  <g>
+    <g>
+      <path class="cls-3" d="M0,177.87l124.92,.16c41.52,.05,75.19,33.65,75.33,75.17h0c.14,41.56,33.87,75.17,75.42,75.17h97.42" />
+      <polygon class="cls-4" points="367.62 347.06 400 328.37 367.62 309.67 367.62 347.06" />
+    </g>
+    <g>
+      <path class="cls-3" d="M0,27.87l124.92,.16c41.52,.05,75.19,33.65,75.33,75.17h0c.14,41.56,33.87,75.17,75.42,75.17h97.42" />
+      <polygon class="cls-4" points="367.62 197.06 400 178.37 367.62 159.67 367.62 197.06" />
+    </g>
+  </g>
+  <g>
+    <path class="cls-2" d="M0,328.37H120.14c44.13,0,79.93-35.74,80-79.87l.23-140.77c.07-44.13,35.87-79.87,80-79.87h83.75" />
+    <polygon class="cls-1" points="356.83 52.8 400 27.87 356.83 2.94 356.83 52.8" />
+  </g>
+</svg>

@@ -54,7 +54,7 @@ else {
     })
     state.value = "Creating player..."
     store.player = new Spotify.Player({
-      name: 'SpotiShuffle',
+      name: 'PlayMix',
       getOAuthToken: (cb) => {
         cb(store.authToken)
       }

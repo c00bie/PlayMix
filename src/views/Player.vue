@@ -115,8 +115,8 @@ function saveToPlaylist() {
   const playlists = [...new Set(Object.values(store.playlistMap).flat(1))]
   store.api?.getMe().then(me => {
     store.api?.createPlaylist(me.id, {
-      name: 'My SpotiShuffle mix',
-      description: 'Playlist created by SpotiShuffle, consisting of: "' + playlists.join('", "') + '"'
+      name: 'My PlayMix mix',
+      description: 'Playlist created by PlayMix, consisting of: "' + playlists.join('", "') + '"'
     }).then(async (playlist) => {
       try {
       for (var i = 0; i < store.playlist.length; i += 100)
