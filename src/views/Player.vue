@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, h } from 'vue';
-import useStore from '../store'
+import useStore, { convertUri } from '../store'
 import { average } from 'color.js'
 import Color from 'color';
 import { format } from 'date-fns';
@@ -19,13 +19,10 @@ const duration = computed(() => playerState.value?.duration ?? 0)
 const playing = computed(() => playerState.value?.paused !== true)
 var lastUpdate = Date.now()
 const currentTrack = computed(() => playerState.value?.track_window.current_track ?? null) //ref<Spotify.Track | null>(null)
-const artists = computed(() => {
-  return currentTrack.value?.artists.map(artist => artist.name).join(', ') ?? 'Unknown Artist'
-})
 const lists = computed(() => {
   if (currentTrack.value !== null && store.playlistMap[currentTrack.value.uri] !== undefined)
-    return store.playlistMap[currentTrack.value.uri].join(', ')
-  else return 'unknown'
+    return store.playlistMap[currentTrack.value.uri]
+  else return []
 })
 
 const devices = ref<SpotifyApi.UserDevice[] | null>(null)
@@ -160,17 +157,22 @@ function error(title: string) {
       <n-p>Playback was probably transferred to another device</n-p>
     </div>
     <n-space v-else id="player-content" align="center">
-      <img id="currentCover" :src="currentTrack?.album.images[0].url" :alt="currentTrack?.album.name">
+      <a :href="convertUri(currentTrack?.album.uri)" target="_blank"><img id="currentCover" :src="currentTrack?.album.images[0].url" :alt="currentTrack?.album.name"></a>
       <div id="currentSong">
         <n-space id="title" align="start" justify="space-between" :wrap="false">
-          <h2>{{ currentTrack?.name || 'Unknown track' }}</h2>
+          <h2><a :href="convertUri(currentTrack?.uri)" target="_blank">{{ currentTrack?.name || 'Unknown track' }}</a></h2>
           <img id="spotifyLogo" src="../assets/Spotify_green.svg" alt="Spotify">
         </n-space>
-        <n-h3 style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-          <n-text depth="3">{{ artists }}</n-text>
+        <n-h3 id="artists" style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <n-text v-for="art of currentTrack.artists" depth="3">
+            <a :href="convertUri(art.uri)" target="_blank">{{ art.name }}</a>
+          </n-text>
         </n-h3>
-        <n-p depth="3" style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-          From: {{ lists }}
+        <n-p id="playlists" depth="3" style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <span>From: </span>
+          <n-text v-for="list of lists" depth="3">
+            <a :href="list.url" target="_blank">{{list.name}}</a>
+          </n-text>
         </n-p>
         <div id="controls">
           <n-slider :show-tooltip="false" :format-tooltip="() => ''" :value="position" :max="duration"
@@ -245,6 +247,14 @@ function error(title: string) {
 
       &:first-child {
         text-align: center;
+      }
+    }
+
+    #artists, #playlists {
+      .n-text:not(:last-child) {
+        a::after {
+          content: ', ';
+        }
       }
     }
   }

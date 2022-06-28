@@ -17,7 +17,8 @@ export interface State {
   playlist: string[],
   playlistIndex: number,
   addedListeners: boolean,
-  playlistMap: { [key: string]: string[] },
+  playlistMap: { [key: string]: [{ url: string, name: string }] },
+  userID: string,
 }
 
 const store = defineStore('main', {
@@ -35,7 +36,8 @@ const store = defineStore('main', {
       playlist: [],
       playlistIndex: 0,
       addedListeners: false,
-      playlistMap: {}
+      playlistMap: {},
+      userID: '',
     }
   },
   getters: {
@@ -64,7 +66,8 @@ const store = defineStore('main', {
           fillColorHover: baseColor.l(baseColor.l() + 6).hex(),
         }
       }
-    }
+    },
+    linkBase: (state: State): string => `https://open.spotify.com/user/${state.userID}`,
   },
   actions: {
     async getPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse['items']> {
@@ -113,10 +116,18 @@ const store = defineStore('main', {
 
 export default store
 
-function pickTextColor(bg: string, light: string, dark: string) {
+export function pickTextColor(bg: string, light: string, dark: string) {
   var color = Color(bg);
   var c = [color.red() / 255, color.green() / 255, color.blue() / 255]
     .map(col => col <= 0.03928 ? col / 12.92 : Math.pow((col + 0.055) / 1.055, 2.4));
   var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
   return (L > 0.179) ? dark : light;
+}
+
+export function convertUri(uri: string): string {
+  if (typeof(uri) !== 'string')
+    return ''
+  var u = uri.split(':')
+  u[0] = 'https://open.spotify.com'
+  return u.join('/')
 }

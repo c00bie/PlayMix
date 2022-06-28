@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useStore from '../store'
+import useStore, { pickTextColor } from '../store'
 import { CheckCircle } from '@vicons/fa'
 import { ref, computed } from 'vue';
 import { average } from 'color.js'
@@ -21,20 +21,26 @@ const checked = computed({
   get: () => props.checked,
   set: (value) => emit('checked', value)
 })
+const text = computed(() => {
+  if (!checked.value)
+    return '#fff'
+  else
+    return pickTextColor(overlay.value, '#fff', '#000')
+})
 </script>
 
 <template>
-<n-space vertical align="center" justify="center">
+<n-space class="playlist" vertical align="center" :style="{'--ss-checked-color': overlay, '--ss-checked-text': text}" :data-checked="checked">
   <div class="cover" @click="checked = !checked">
     <img :src="playlist.images[0].url" loading="lazy">
-    <div class="cover-checked" :data-checked="checked">
+    <!-- <div class="cover-checked" :data-checked="checked">
       <n-icon :color="overlay" size="45px">
         <CheckCircle />
       </n-icon>
-    </div>
+    </div> -->
   </div>
   <div class="playlistInfo">
-    <p>{{ playlist.name }}</p>
+    <p><a :href="playlist.external_urls.spotify" target="_blank">{{ playlist.name }}</a></p>
     <p>{{ playlist.tracks.total }} tracks</p>
   </div>
 </n-space>
@@ -42,6 +48,19 @@ const checked = computed({
 
 <style lang="scss">
 $coversize: 150px;
+
+.n-space.playlist {
+  padding: 10px;
+  background-color: transparent;
+  color: var(--ss-checked-text);
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 5px;
+  height: calc(100% - 20px);
+
+  &[data-checked="true"] {
+    background-color: var(--ss-checked-color, transparent);
+  }
+}
 
 .cover {
   width: $coversize;
@@ -51,7 +70,7 @@ $coversize: 150px;
   transition: transform 0.2s ease-in-out;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   img {

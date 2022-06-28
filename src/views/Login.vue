@@ -44,12 +44,14 @@ else {
     }
   }).then(res => {
     state.value = "Retrieving user information..."
-    console.log(res)
     store.authToken = res.data.access_token
     store.refreshToken = res.data.refresh_token
     store.refreshAfter = res.data.expires_in
     store.api = new SpotifyWebApi()
     store.api.setAccessToken(store.authToken)
+    store.api.getMe().then(res => {
+      store.userID = res.id
+    })
     state.value = "Creating player..."
     store.player = new Spotify.Player({
       name: 'SpotiShuffle',

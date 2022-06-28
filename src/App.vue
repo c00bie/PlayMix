@@ -58,4 +58,13 @@ document.getElementsByTagName('head')[0].appendChild(player)
     color: var(--ss-text-color) !important;
   }
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
 </style>

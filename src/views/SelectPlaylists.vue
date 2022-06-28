@@ -4,6 +4,7 @@ import useStore from '../store'
 import { ref } from 'vue';
 import { ArrowsShuffle } from '@vicons/tabler';
 import { useRouter } from 'vue-router';
+import type { State } from '../store';
 
 const store = useStore()
 const router = useRouter()
@@ -25,16 +26,19 @@ function updateChecked(id: string, state: boolean) {
 async function shuffle() {
   message.value = 'Preparing to shuffle...'
   var tracks: string[] = [];
-  var listnames: { [key: string]: string } = {}
+  var listnames: { [key: string]: State['playlistMap'][string][0] } = {}
   message.value = 'Mapping playlists...'
   for (const list of playlists.value) {
     if (store.selectedPlaylists.includes(list.id)) {
-      listnames[list.id] = list.name
+      listnames[list.id] = {
+        url: list.external_urls.spotify,
+        name: list.name
+      }
     }
   }
   store.playlistMap = {}
   for (const list of store.selectedPlaylists) {
-    message.value = 'Retrieving tracks from ' + listnames[list] + '...'
+    message.value = 'Retrieving tracks from ' + listnames[list].name + '...'
     var tr: string[] = [];
     var offset = 0;
     do {
@@ -45,8 +49,9 @@ async function shuffle() {
     } while (rq?.total > tr.length)
     for (const track of tr) {
       if (store.playlistMap[track] === undefined)
-        store.playlistMap[track] = []
-      store.playlistMap[track].push(listnames[list])
+        store.playlistMap[track] = [listnames[list]]
+      else
+        store.playlistMap[track].push(listnames[list])
     }
     tracks.push(...tr)
   }
@@ -67,7 +72,7 @@ async function shuffle() {
 <n-space id="playlistSelect" align="center" justify="center" vertical>
   <p class="header" v-if="first">First things first...</p>
   <p class="header" v-else>Changed your mind?</p>
-  <p class="subheader">Select playlists you want to use</p>
+  <p class="subheader">Select playlists you want to use<br/><n-text depth="3" style="font-size: 0.75em">Click on cover art to select</n-text></p>
   <n-space v-if="playlists.length === 0" vertical align="center" justify="center">
     <n-text>Retrieving playlists...</n-text>
     <n-spin></n-spin>
