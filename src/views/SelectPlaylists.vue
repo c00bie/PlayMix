@@ -72,7 +72,11 @@ async function shuffle() {
 <n-space id="playlistSelect" align="center" justify="center" vertical>
   <p class="header" v-if="first">First things first...</p>
   <p class="header" v-else>Changed your mind?</p>
-  <p class="subheader">Select playlists you want to use<br/><n-text depth="3" style="font-size: 0.75em">Click on cover art to select</n-text></p>
+  <p class="subheader">Select playlists you want to use</p>
+  <n-p id="instructions" depth="3" style="font-size: 1.25em">
+    Click on cover art to select<br/>
+    Click on title to view on Spotify
+  </n-p>
   <n-space v-if="playlists.length === 0" vertical align="center" justify="center">
     <n-text>Retrieving playlists...</n-text>
     <n-spin></n-spin>
@@ -91,6 +95,10 @@ async function shuffle() {
   </template>
   Shuffle!
 </n-button>
+<p id="spotify-lists">
+  <span>Powered by</span>
+  <img src="../assets/Spotify_green.svg" alt="Spotify" />
+</p>
 <n-modal :show="message !== ''">
   <n-card size="huge" style="width: 90%; max-width: 600px;">
     <n-space vertical align="center" justify="center">
@@ -121,5 +129,21 @@ async function shuffle() {
   width: 90vw;
   max-width: 300px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#spotify-lists {
+  text-align: right;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+
+  img {
+    width: 100px;
+  }
 }
 </style>
