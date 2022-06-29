@@ -81,7 +81,7 @@ async function shuffle() {
     <n-text>Retrieving playlists...</n-text>
     <n-spin></n-spin>
   </n-space>
-  <n-grid cols="1 xs:2 s:3 m:4 l:5 xl:6 xxl:7" responsive="screen" x-gap="25px" y-gap="25px">
+  <n-grid cols="1 xs:2 s:3 m:4 l:5 xl:6 xxl:7" responsive="screen" x-gap="10px s:25px" y-gap="25px">
     <n-gi v-for="play of playlists">
       <Playlist :playlist="play" :checked="store.selectedPlaylists.includes(play.id)" @checked="updateChecked(play.id, $event)"></Playlist>
     </n-gi>
@@ -95,10 +95,6 @@ async function shuffle() {
   </template>
   Shuffle!
 </n-button>
-<p id="spotify-lists">
-  <span>Powered by</span>
-  <img src="../assets/Spotify_green.svg" alt="Spotify" />
-</p>
 <n-modal :show="message !== ''">
   <n-card size="huge" style="width: 90%; max-width: 600px;">
     <n-space vertical align="center" justify="center">
@@ -112,12 +108,25 @@ async function shuffle() {
 <style lang="scss">
 #playlistSelect {
   min-height: 100vh;
-  padding: 50px;
+  padding: 50px 10px;
   margin-bottom: 50px;
   text-align: center;
 
   .n-grid {
     margin-top: 50px;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      content: url('../assets/Spotify_green.svg');
+      height: 50px;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -132,15 +141,16 @@ async function shuffle() {
 }
 
 #spotify-lists {
-  text-align: right;
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
+  text-align: center;
+  //position: fixed;
+  //bottom: 10px;
+  //right: 10px;
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: nowrap;
+  font-size: 1.25em;
 
   img {
     width: 100px;

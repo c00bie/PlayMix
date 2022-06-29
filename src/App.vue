@@ -9,7 +9,7 @@ const router = useRouter()
 const theme = computed(() => {
   return useOsTheme().value === 'dark' ? darkTheme : null
 })
-const breakpoints = { xxs: 0, xs: 420, s: 640, m: 1024, l: 1280, xl: 1536, xxl: 1920 }
+const breakpoints = { xxs: 0, xs: 370, s: 640, m: 1024, l: 1280, xl: 1536, xxl: 1920 }
 
 // @ts-ignore
 window.onSpotifyWebPlaybackSDKReady = () => {
