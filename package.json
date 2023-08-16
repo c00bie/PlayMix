@@ -1,7 +1,12 @@
 {
-  "name": "spotishuffle",
+  "name": "playmix",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": {
+    "name": "c00bie",
+    "url": "https://coobie.dev"
+  },
+  "license": "LGPL-3.0-only",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
