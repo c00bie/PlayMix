@@ -6,6 +6,31 @@ import { strictEqual } from 'assert';
 import { useRouter } from 'vue-router';
 import SpotifyWebApi from 'spotify-web-api-js'
 
+function generateRandomString(length: number) {
+  let text = '';
+  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+
+async function generateCodeChallenge(codeVerifier: string) {
+  function base64encode(string: ArrayBuffer) { //@ts-ignore
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
+
+  const encoder = new TextEncoder();
+  const data = encoder.encode(codeVerifier);
+  const digest = await window.crypto.subtle.digest('SHA-256', data);
+
+  return base64encode(digest);
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
 const error = urlParams.get('error');
@@ -26,17 +51,24 @@ const scopes = [
   'user-read-currently-playing'
 ]
 
-if (code === null)
-  window.location.href = `https://accounts.spotify.com/authorize/?client_id=65669c1dd2ab4fb2a8e77754832fe49f&response_type=code&scope=${scopes.join(' ')}&redirect_uri=${redirect}`
+if (code === null){
+  let codeVerifier = generateRandomString(128);
+  localStorage.setItem('code_verifier', codeVerifier);
+  generateCodeChallenge(codeVerifier).then(codeChallenge => {
+    window.location.href = `https://accounts.spotify.com/authorize/?client_id=${import.meta.env.VITE_CLIENT_ID}&response_type=code&scope=${scopes.join(' ')}&redirect_uri=${redirect}&code_challenge_method=S256&code_challenge=${codeChallenge}`
+  })
+}
 else if (error !== null) {
 
 }
 else {
+  const codeVerifier = localStorage.getItem('code_verifier')
   state.value = "Retrieving access token..."
   const params = new URLSearchParams()
   params.append('grant_type', 'authorization_code')
   params.append('code', code)
   params.append('redirect_uri', redirect)
+  params.append('code_verifier', codeVerifier as string)
   axios.post('https://accounts.spotify.com/api/token', params, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -59,6 +91,7 @@ else {
         cb(store.authToken)
       }
     })
+    localStorage.removeItem('code_verifier')
     store.player?.on('ready', ({ device_id }) => {
       store.deviceId = device_id
       console.log('Connected with Device ID', device_id);
