@@ -69,10 +69,10 @@ else {
   params.append('code', code)
   params.append('redirect_uri', redirect)
   params.append('code_verifier', codeVerifier as string)
+  params.append('client_id', import.meta.env.VITE_CLIENT_ID)
   axios.post('https://accounts.spotify.com/api/token', params, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + import.meta.env.VITE_AUTH
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   }).then(res => {
     state.value = "Retrieving user information..."
