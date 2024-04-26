@@ -97,10 +97,10 @@ const store = defineStore('main', {
       const params = new URLSearchParams()
       params.append('grant_type', 'refresh_token')
       params.append('refresh_token', this.refreshToken)
+      params.append('client_id', import.meta.env.VITE_CLIENT_ID)
       axios.post('https://accounts.spotify.com/api/token', params, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + import.meta.env.VITE_AUTH
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(res => {
         this.authToken = res.data.access_token
