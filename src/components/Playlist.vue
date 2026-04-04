@@ -14,7 +14,7 @@ const emit = defineEmits<{
   (event: 'checked', newState: boolean): boolean
 }>()
 var overlay = ref(store.darkColor)
-average(props.playlist.images[0].url).then(res => {
+average(props.playlist.images[0]!.url).then(res => {
   overlay.value = Color(res).hex()
 })
 const checked = computed({
@@ -32,7 +32,7 @@ const text = computed(() => {
 <template>
 <n-space class="playlist" vertical align="center" :style="{'--ss-checked-color': overlay, '--ss-checked-text': text}" :data-checked="checked">
   <div class="cover" @click="checked = !checked">
-    <img :src="playlist.images[0].url" loading="lazy">
+    <img :src="playlist.images[0]!.url" loading="lazy">
     <!-- <div class="cover-checked" :data-checked="checked">
       <n-icon :color="overlay" size="45px">
         <CheckCircle />

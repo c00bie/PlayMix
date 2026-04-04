@@ -13,6 +13,7 @@ import type { DropdownMixedOption } from 'naive-ui/es/dropdown/src/interface';
 const store = useStore()
 const router = useRouter()
 const notif = useNotification()
+//@ts-ignore
 const playerState = ref<Spotify.PlaybackState | null>(null)
 const position = ref(-1)
 const duration = computed(() => playerState.value?.duration ?? 0)
@@ -82,13 +83,13 @@ watch(playerState, async (state) => {
 })
 
 if (!store.addedListeners) {
-  store.player?.on('player_state_changed', (state) => {
+  store.player?.on('player_state_changed', (state: any) => {
     playerState.value = state
     position.value = state?.position ?? -1
     lastUpdate = Date.now()
   })
 }
-store.player?.getCurrentState().then(state => {
+store.player?.getCurrentState().then((state: any) => {
   playerState.value = state
   position.value = state?.position ?? -1
   lastUpdate = Date.now()

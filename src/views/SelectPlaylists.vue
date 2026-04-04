@@ -38,7 +38,7 @@ async function shuffle() {
   }
   store.playlistMap = {}
   for (const list of store.selectedPlaylists) {
-    message.value = 'Retrieving tracks from ' + listnames[list].name + '...'
+    message.value = 'Retrieving tracks from ' + listnames[list]!.name + '...'
     var tr: string[] = [];
     var offset = 0;
     do {
@@ -49,9 +49,9 @@ async function shuffle() {
     } while (rq?.total > tr.length)
     for (const track of tr) {
       if (store.playlistMap[track] === undefined)
-        store.playlistMap[track] = [listnames[list]]
+        store.playlistMap[track] = [listnames[list]!]
       else
-        store.playlistMap[track].push(listnames[list])
+        store.playlistMap[track].push(listnames[list]!)
     }
     tracks.push(...tr)
   }

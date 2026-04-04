@@ -7,6 +7,7 @@ import axios from 'axios'
 export interface State {
   baseColor: string,
   playerReady: boolean,
+  //@ts-ignore
   player: Spotify.Player | null,
   api: SpotifyWebApi.SpotifyWebApiJs | null
   authToken: string,
@@ -87,7 +88,7 @@ const store = defineStore('main', {
     },
     async addNextToQueue(): Promise<void> {
       if (this.player === null || this.playlist.length === 0) return
-      await this.api?.queue(this.playlist[this.playlistIndex++], {device_id: this.deviceId})
+      await this.api?.queue(this.playlist[this.playlistIndex++]!, {device_id: this.deviceId})
       if (this.playlistIndex >= this.playlist.length) {
         this.playlist.sort(() => Math.random() - 0.5)
         this.playlistIndex = 0
@@ -120,7 +121,7 @@ export function pickTextColor(bg: string, light: string, dark: string) {
   var color = Color(bg);
   var c = [color.red() / 255, color.green() / 255, color.blue() / 255]
     .map(col => col <= 0.03928 ? col / 12.92 : Math.pow((col + 0.055) / 1.055, 2.4));
-  var L = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+  var L = (0.2126 * c[0]!) + (0.7152 * c[1]!) + (0.0722 * c[2]!);
   return (L > 0.179) ? dark : light;
 }
 

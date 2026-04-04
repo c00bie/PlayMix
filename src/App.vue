@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useOsTheme, darkTheme, GlobalThemeOverrides } from 'naive-ui';
+import { useOsTheme, darkTheme, type GlobalThemeOverrides } from 'naive-ui';
 import useStore from './store'
 import { useRouter } from 'vue-router';
 
@@ -18,7 +18,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
 const player = document.createElement('script')
 player.src = "https://sdk.scdn.co/spotify-player.js"
-document.getElementsByTagName('head')[0].appendChild(player)
+document.getElementsByTagName('head')[0]!.appendChild(player)
 </script>
 
 <template>

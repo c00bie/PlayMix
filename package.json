@@ -1,7 +1,8 @@
 {
   "name": "playmix",
+  "version": "1.1.0",
   "private": true,
-  "version": "1.0.0",
+  "type": "module",
   "author": {
     "name": "c00bie",
     "url": "https://coobie.dev"
@@ -9,35 +10,44 @@
   "license": "LGPL-3.0-only",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "color": "^4.2.3",
+    "axios": "^1.14.0",
+    "color": "^5.0.3",
     "color.js": "^1.2.0",
-    "date-fns": "^2.28.0",
-    "js-cookie": "^3.0.1",
-    "pinia": "^2.0.14",
+    "date-fns": "^4.1.0",
+    "js-cookie": "^3.0.5",
+    "pinia": "^3.0.4",
     "spotify-web-api-js": "^1.5.2",
-    "vue": "^3.2.25",
-    "vue-router": "^4.0.16"
+    "vue": "^3.5.31",
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
-    "@types/color": "^3.0.3",
-    "@types/js-cookie": "^3.0.2",
-    "@types/node": "^18.0.0",
-    "@types/spotify-web-playback-sdk": "^0.1.12",
-    "@vicons/fa": "^0.12.0",
-    "@vicons/material": "^0.12.0",
-    "@vicons/tabler": "^0.12.0",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "naive-ui": "^2.30.4",
-    "sass": "^1.52.3",
-    "typescript": "^4.5.4",
-    "unplugin-vue-components": "^0.19.6",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/color": "^4.2.1",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^24.12.0",
+    "@types/spotify-web-playback-sdk": "^0.1.19",
+    "@vicons/fa": "^0.13.0",
+    "@vicons/material": "^0.13.0",
+    "@vicons/tabler": "^0.13.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "@vue/tsconfig": "^0.9.1",
+    "naive-ui": "^2.44.1",
+    "npm-run-all2": "^8.0.4",
+    "sass": "^1.99.0",
+    "typescript": "~6.0.0",
+    "unplugin-vue-components": "^32.0.0",
     "vfonts": "^0.0.3",
-    "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
+    "vite": "^8.0.3",
+    "vite-plugin-vue-devtools": "^8.1.1",
+    "vue-tsc": "^3.2.6"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   }
 }

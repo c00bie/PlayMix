@@ -2,7 +2,6 @@
 import useStore from '../store'
 import axios from 'axios'
 import { ref } from 'vue';
-import { strictEqual } from 'assert';
 import { useRouter } from 'vue-router';
 import SpotifyWebApi from 'spotify-web-api-js'
 
@@ -85,14 +84,15 @@ else {
       store.userID = res.id
     })
     state.value = "Creating player..."
+    //@ts-ignore
     store.player = new Spotify.Player({
       name: 'PlayMix',
-      getOAuthToken: (cb) => {
+      getOAuthToken: (cb: (token: string) => void) => {
         cb(store.authToken)
       }
     })
     localStorage.removeItem('code_verifier')
-    store.player?.on('ready', ({ device_id }) => {
+    store.player?.on('ready', ({ device_id }: { device_id: string }) => {
       store.deviceId = device_id
       console.log('Connected with Device ID', device_id);
       router.push('/select')
