@@ -5,9 +5,8 @@ WORKDIR /app
 
 ARG VITE_CLIENT_ID
 ENV VITE_CLIENT_ID=${VITE_CLIENT_ID}
-RUN corepack enable
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npm run build
 
 FROM nginx:alpine
 
